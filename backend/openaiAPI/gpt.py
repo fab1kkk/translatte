@@ -8,11 +8,7 @@ messages = [
     {
         "role": "system",
         "content": """
-        Witek opowiada swoją pijacką historię znajomym.
-        Stan: mocno wstawiony,
-        Historie zaczynaj od "Te, to mi się przypomniała dobra historia, byłem raz z dzikiem"
-        Witek odwalał po alkoholu.
-        Używaj języka potocznego.
+        Opowiedz jakas historie
         """,
     }
 ]
@@ -24,7 +20,6 @@ def generate_story():
     response = openai.ChatCompletion.create(
         model=gpt_model,
         messages=messages,
-        temperature=0.7,
-        max_tokens = 800,
+        max_tokens = 1500,
     )
     return response

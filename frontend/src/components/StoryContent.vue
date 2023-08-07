@@ -1,16 +1,26 @@
 <template>
-    <section>
-        <button @click="returnDummy" :disabled="loading"
-            :class="[style.button.wrapper, loading ? style.button.loading : style.button.getStory]">
-            {{ loading ? 'Loading...' : 'Generate useless story!' }}
-        </button>
-        <div v-if="loading" :class="style.animation.spinner"> </div>
-        <div ref="textAreaRef" class="textarea-wrapper">
-            <textarea id="cont" :class="style.textarea.data" v-if="storyData" v-model="storyData"
-                :style="{ height: style.textarea.height + 'px' }">
-                Story..</textarea>
+    <button @click="returnDummy" :disabled="loading"
+        :class="[style.button.wrapper, loading ? style.button.loading : style.button.getStory]">
+        {{ loading ? 'Loading...' : 'Upload file' }}
+    </button>
+    <div class="story-content-wrapper">
+        <div class="input">
+            <div v-if="loading" :class="style.animation.spinner"> </div>
+            <div ref="textAreaRef" class="textarea-wrapper">
+                <textarea id="cont" :class="style.textarea.data" v-if="storyData" v-model="storyData"
+                    :style="{ height: style.textarea.height + 'px' }">
+            Story..</textarea>
+            </div>
         </div>
-    </section>
+        <div class="output">
+            <div v-if="loading" :class="style.animation.spinner"> </div>
+            <div ref="textAreaRef" class="textarea-wrapper">
+                <textarea id="cont" :class="style.textarea.data" v-if="storyData" v-model="storyData"
+                    :style="{ height: style.textarea.height + 'px' }">
+        Story..</textarea>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -87,7 +97,21 @@ export default {
 }
 </script>
 
-<style scoped> .button-wrapper {
+<style scoped> 
+.story-content-wrapper {
+     display: flex;
+     flex-direction: row;
+     gap: 20px;
+     margin-top: 20px;
+     text-align: center;
+ }
+
+ .input,
+ .output {
+     width: 50%;
+ }
+
+ .button-wrapper {
      transition: 0.4s linear;
      background: rgba(255, 0, 0, 0.5);
      font-size: 20px;
@@ -119,7 +143,6 @@ export default {
  }
 
  .textarea-wrapper {
-     height: auto;
      width: 100%;
  }
 
@@ -138,6 +161,16 @@ export default {
      overflow: hidden;
  }
 
+ @media (max-width: 768px) {
+     .story-content-wrapper {
+         flex-direction: column;
+     }
+     .input,
+     .output {
+         width: 100%;
+     }
+ }
+
  @keyframes spin {
      0% {
          transform: rotate(0deg);
@@ -146,5 +179,4 @@ export default {
      100% {
          transform: rotate(720deg);
      }
- }
-</style>
+ }</style>

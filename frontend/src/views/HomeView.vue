@@ -1,12 +1,7 @@
 <template>
     <Layout>
         <div class="home">
-            <div class="child1">
-                <StoryContent />
-            </div>
-            <div class="child2">
-                <!-- <StoryContent /> -->
-            </div>
+            <StoryContent />
         </div>
     </Layout>
 </template>
@@ -26,34 +21,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .home {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.child1 {
-    width: 50%;
-}
-
-.child2 {
-    width: 50%;
-}
-
-@media (max-width: 768px) {
-    .home {
-        flex-direction: column;
-    }
-
-    .child1, .child2 {
-        width: 100%;
-    }
-
-    .child1 {
-        text-align: center;
-    }
+    max-width: 1444px;
+    margin: 0 auto;
+    padding: 0 10px;
 }
 </style>

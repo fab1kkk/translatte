@@ -2,9 +2,7 @@
     <div class="navbar">
         <AppNavbar />
     </div>
-    <div class="content-wrapper">
         <slot></slot>
-    </div>
     <AppFooter />
 </template>
 
@@ -30,6 +28,5 @@ export default {
     max-width: 1444px;
     margin: 0 auto;
     padding: 0 10px;
-
 }
 </style>

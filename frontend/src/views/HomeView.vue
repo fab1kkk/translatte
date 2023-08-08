@@ -1,6 +1,7 @@
 <template>
     <Layout>
         <div class="home">
+            <FIleUploadButton/>
             <StoryContent />
         </div>
     </Layout>
@@ -8,6 +9,7 @@
 
 
 <script>
+import FIleUploadButton from "@/components/FIleUploadButton.vue";
 import StoryContent from "@/components/StoryContent.vue";
 import Layout from "@/layout/Layout.vue";
 
@@ -15,9 +17,10 @@ import Layout from "@/layout/Layout.vue";
 export default {
     name: "HomeView",
     components: {
-        StoryContent,
-        Layout
-    },
+    StoryContent,
+    Layout,
+    FIleUploadButton
+},
 };
 </script>
 

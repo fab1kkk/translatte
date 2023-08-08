@@ -50,9 +50,9 @@ export default {
     },
     methods: {
         async fetchStory() {
-            this.loading = !this.loading
-            const response = await ApiService.get('/api/get-story')
-            let story = response.choices[0].message.content
+            this.loading = !this.loading;
+            const response = await ApiService.get('/api/get-story');
+            let story = response.choices[0].message.content;
             let i = 0;
             let interval = setInterval(() => {
                 if (i < story.length) {
@@ -61,11 +61,12 @@ export default {
                     if (i % 3 === 0) {
                         this.style.textarea.height += 1.5;
                     }
-                } else {
-                    clearInterval(interval)
+                }
+                else {
+                    clearInterval(interval);
                 }
             }, 3);
-            this.loading = !this.loading
+            this.loading = !this.loading;
         },
         returnDummy() {
             this.storyData = '';
@@ -79,8 +80,9 @@ export default {
                     if (i % 3 === 0) {
                         this.style.textarea.height += 1.5;
                     }
-                } else {
-                    clearInterval(interval)
+                }
+                else {
+                    clearInterval(interval);
                 }
             }, 3);
         },
@@ -89,7 +91,8 @@ export default {
         computeTextAreaHeight() {
             if (this.$refs.textAreaRef) {
                 return `${this.$refs.textAreaRef.scrollHeight}px`;
-            } else {
+            }
+            else {
                 return 'auto';
             }
         }
@@ -98,7 +101,9 @@ export default {
 </script>
 
 <style scoped> 
-.story-content-wrapper {
+
+
+ .story-content-wrapper {
      display: flex;
      flex-direction: row;
      gap: 20px;
@@ -165,6 +170,7 @@ export default {
      .story-content-wrapper {
          flex-direction: column;
      }
+
      .input,
      .output {
          width: 100%;
@@ -179,4 +185,5 @@ export default {
      100% {
          transform: rotate(720deg);
      }
- }</style>
+ }
+</style>

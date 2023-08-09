@@ -20,6 +20,6 @@ def generate_story():
     response = openai.ChatCompletion.create(
         model=gpt_model,
         messages=messages,
-        max_tokens = 1500,
+        max_tokens=1500,
     )
     return response

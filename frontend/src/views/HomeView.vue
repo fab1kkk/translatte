@@ -1,8 +1,8 @@
 <template>
     <Layout>
         <div class="home">
-            <FIleUploadButton/>
-            <StoryContent />
+            <FIleUploadButton @fileUploaded="handleFileUploaded" />
+            <StoryContent :uploadedContent="uploadedContent" />
         </div>
     </Layout>
 </template>
@@ -17,10 +17,21 @@ import Layout from "@/layout/Layout.vue";
 export default {
     name: "HomeView",
     components: {
-    StoryContent,
-    Layout,
-    FIleUploadButton
-},
+        StoryContent,
+        Layout,
+        FIleUploadButton,
+    },
+    data() {
+        return {
+            uploadedContent: '',
+        }
+    },
+    methods: {
+        handleFileUploaded(content) {
+            this.uploadedContent = content;
+        }
+    }
+    
 };
 </script>
 

@@ -11,6 +11,7 @@
                 v-if="selectedFile.object">{{ selectedFile.content ? 'Translated.' : 'Translate' }}</button>
             </form>
             <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
+            <button v-if="selectedFile.content" @click="downloadOutput">Download</button>
     </div>
 </template>
 

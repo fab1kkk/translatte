@@ -8,7 +8,7 @@
             <input type="file" name="fileInput" id="fileInput" ref="fileInput" @change="handleFileChange" class="file-input"
                 accept="text/plain, application/pdf">
             <button type="submit" :class="['upload-button', selectedFile.content ? 'filled' : '']"
-                v-if="selectedFile.object">{{ selectedFile.content ? 'Loaded' : 'Load first' }}</button>
+                v-if="selectedFile.object">{{ selectedFile.content ? 'Loaded' : 'Translate' }}</button>
             </form>
             <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
     </div>
@@ -44,9 +44,8 @@ export default {
                             'Content-Type': 'multipart/form-data',
                         }
                     });
-                    console.log(response);
-                    this.$emit("fileUploaded", response.data.content);
                     this.selectedFile.content = response.data.content;
+                    this.$emit("fileUploaded", response.data.content);
                 } catch (error) {
                     console.error('Error uploading file: ', error);
                 }

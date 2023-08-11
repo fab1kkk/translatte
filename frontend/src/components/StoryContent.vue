@@ -1,16 +1,16 @@
 <template>
     <div class="story-content-container">
-        <div class="read-btn-wrapper">
-            <button @click="returnDummy" :disabled="loading || !uploadedContent"
+        <!-- <div class="read-btn-wrapper">
+            <button @click="showOutputs" :disabled="loading || !uploadedContent"
                 :class="[style.button.wrapper, loading ? style.button.loading : style.button.getStory]">
                 {{ loading ? 'Reading...' : 'Translatte' }}
             </button>
-        </div>
-        <div class="story-content-wrapper" v-if="uploadedContent">
+        </div> -->
+        <div v-if="uploadedContent" :class="['story-content-wrapper']">
             <div class="input">
                 <div v-if="loading" :class="style.animation.spinner"> </div>
                 <div ref="textAreaRef" class="textarea-wrapper">
-                    <textarea id="cont" :class="style.textarea.data" v-model="originalText"
+                    <textarea id="cont" :value="uploadedContent.original" :class="style.textarea.data"
                         :style="{ height: style.textarea.height + 'px' }">
             </textarea>
                 </div>
@@ -18,7 +18,7 @@
             <div class="output">
                 <div v-if="loading" :class="style.animation.spinner"> </div>
                 <div ref="textAreaRef" class="textarea-wrapper">
-                    <textarea id="cont" :class="style.textarea.data" v-model="translatedText"
+                    <textarea id="cont" :value="uploadedContent.translated" :class="style.textarea.data"
                         :style="{ height: style.textarea.height + 'px' }">
         </textarea>
                 </div>
@@ -32,8 +32,6 @@ export default {
     name: 'StoryContent',
     data() {
         return {
-            originalText: '',
-            translatedText: '',
             loading: false,
             style: {
                 button: {
@@ -43,7 +41,7 @@ export default {
                 },
                 textarea: {
                     data: 'textarea-data',
-                    height: 100,
+                    height: 400,
                 },
                 animation: {
                     spinner: 'animation-spinner',
@@ -52,12 +50,8 @@ export default {
         };
     },
     methods: {
-        returnDummy() {
-            this.loading = !this.loading;
-            console.log(this.uploadedContent)
-            this.originalText = this.uploadedContent.original;
-            this.translatedText = this.uploadedContent.translated;
-            this.loading = !this.loading;
+        showOutputs() {
+            this.showOutput = !this.showOutput;
         }
     },
     computed: {
@@ -71,7 +65,7 @@ export default {
         }
     },
     props: {
-        uploadedContent: String,
+        uploadedContent: Object,
     }
 }
 </script>
@@ -166,5 +160,4 @@ export default {
      100% {
          transform: rotate(720deg);
      }
- }
-</style>
+ }</style>

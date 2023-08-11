@@ -1,9 +1,11 @@
 from fastapi import FastAPI, UploadFile
-from fastapi.responses import JSONResponse
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 
-from openaiAPI.gpt import generate_story
+from openaiAPI.gpt import (
+    generate_story,
+    translate
+)
 
 app = FastAPI()
 
@@ -40,13 +42,17 @@ async def add_file(file: UploadFile):
     try:
         destination = Path("uploads") / file.filename
         content = await file.read()
-
+        decodeContent = str(content, 'utf-8')
+        translatedContent = translate(decodeContent)
         with destination.open("wb") as f:
             f.write(content)
 
         return {
             "fileinfo": file,
-            "content" : content,
+            "content": {
+                'original': content,
+                'translated': translatedContent,
+                },
         }
     except Exception as e:
         return {"error": str(e)}

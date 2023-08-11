@@ -1,4 +1,5 @@
 <template>
+    
     <div class="file-upload-container">
         <form @submit.prevent="submitForm" class="upload-form">
             <label for="fileInput" :class="[style.label.default, selectedFile.content ? 'filled' : '']">{{
@@ -8,7 +9,8 @@
                 accept="text/plain, application/pdf">
             <button type="submit" :class="['upload-button', selectedFile.content ? 'filled' : '']"
                 v-if="selectedFile.object">{{ selectedFile.content ? 'Loaded' : 'Load first' }}</button>
-        </form>
+            </form>
+            <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
     </div>
 </template>
 
@@ -20,7 +22,7 @@ export default {
         return {
             selectedFile: {
                 object: null,
-                content: null,
+                content: '',
                 exists: false,
             },
             style: {
@@ -53,13 +55,16 @@ export default {
             }
         },
         handleFileChange(event) {
+            console.log(event)
             this.selectedFile.object = event.target.files[0];
             this.selectedFile.exists = true;
         },
 
         resetForm() {
+            this.$refs.fileInput.value = '';
             this.selectedFile.object = null;
-            this.selectedFile.content = null;
+            this.selectedFile.content = '';
+            this.$emit("fileUploaded", null);
             this.selectedFile.exists = false;
         },
     }

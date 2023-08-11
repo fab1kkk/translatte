@@ -8,7 +8,7 @@
             <input type="file" name="fileInput" id="fileInput" ref="fileInput" @change="handleFileChange" class="file-input"
                 accept="text/plain, application/pdf">
             <button type="submit" :class="['upload-button', selectedFile.content ? 'filled' : '']"
-                v-if="selectedFile.object">{{ selectedFile.content ? 'Loaded' : 'Translate' }}</button>
+                v-if="selectedFile.object">{{ selectedFile.content ? 'Translated.' : 'Translate' }}</button>
             </form>
             <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
     </div>

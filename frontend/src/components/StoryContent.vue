@@ -65,7 +65,7 @@ export default {
         }
     },
     props: {
-        uploadedContent: Object,
+        uploadedContent: null,
     }
 }
 </script>
@@ -160,4 +160,5 @@ export default {
      100% {
          transform: rotate(720deg);
      }
- }</style>
+ }
+</style>

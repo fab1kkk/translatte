@@ -7,9 +7,11 @@ gpt_model = API_CONFIG["MODEL"]
 messages = [
     {
         "role": "system",
-        "content": """
-        Opowiedz jakas historie
-        """,
+        "content": "Jestes tlumaczem",
+    },
+    {
+        "role": "user",
+        "content": None,
     }
 ]
 
@@ -20,6 +22,27 @@ def generate_story():
     response = openai.ChatCompletion.create(
         model=gpt_model,
         messages=messages,
-        max_tokens=1500,
     )
     return response
+
+
+def translate(msg: str) -> str:
+    response = openai.ChatCompletion.create(
+        model=gpt_model,
+        messages=[
+            {
+                "role": "system",
+                "content":
+                    """
+                    Jesteś tłumaczem. Przetłumacz podany tekst na język angielski.
+                    """,
+            },
+            {
+                "role": "user",
+                "content": msg,
+            }
+        ]
+    )
+    return response['choices'][0].message.content
+
+

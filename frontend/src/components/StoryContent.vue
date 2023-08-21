@@ -1,24 +1,24 @@
 <template>
     <div class="story-content-container">
-        <div class="read-btn-wrapper">
-            <button @click="returnDummy" :disabled="loading || !uploadedContent"
+        <!-- <div class="read-btn-wrapper">
+            <button @click="showOutputs" :disabled="loading || !uploadedContent"
                 :class="[style.button.wrapper, loading ? style.button.loading : style.button.getStory]">
-                {{ loading ? 'Reading...' : 'Read the file' }}
+                {{ loading ? 'Reading...' : 'Translatte' }}
             </button>
-        </div>
-        <div class="story-content-wrapper">
+        </div> -->
+        <div v-if="uploadedContent" :class="['story-content-wrapper']">
             <div class="input">
                 <div v-if="loading" :class="style.animation.spinner"> </div>
                 <div ref="textAreaRef" class="textarea-wrapper">
-                    <textarea id="cont" :class="style.textarea.data" v-if="storyData" v-model="storyData"
+                    <textarea id="cont" :value="uploadedContent.original" :class="style.textarea.data"
                         :style="{ height: style.textarea.height + 'px' }">
             </textarea>
                 </div>
             </div>
-            <div class="input">
+            <div class="output">
                 <div v-if="loading" :class="style.animation.spinner"> </div>
                 <div ref="textAreaRef" class="textarea-wrapper">
-                    <textarea id="cont" :class="style.textarea.data" v-if="storyData" v-model="storyData"
+                    <textarea id="cont" :value="uploadedContent.translated" :class="style.textarea.data"
                         :style="{ height: style.textarea.height + 'px' }">
         </textarea>
                 </div>
@@ -32,7 +32,6 @@ export default {
     name: 'StoryContent',
     data() {
         return {
-            storyData: null,
             loading: false,
             style: {
                 button: {
@@ -42,7 +41,7 @@ export default {
                 },
                 textarea: {
                     data: 'textarea-data',
-                    height: 100,
+                    height: 400,
                 },
                 animation: {
                     spinner: 'animation-spinner',
@@ -51,26 +50,9 @@ export default {
         };
     },
     methods: {
-        returnDummy() {
-            this.storyData = null;
-            this.style.textarea.height = 0;
-            this.loading = !this.loading;
-            let story = this.uploadedContent;
-            let i = 0;
-            let interval = setInterval(() => {
-                if (i < story.length) {
-                    this.storyData += story[i];
-                    i++;
-                    if (i % 3 === 0) {
-                        this.style.textarea.height += 1.3;
-                    }
-                }
-                else {
-                    clearInterval(interval);
-                    this.loading = !this.loading;
-                }
-            }, 2);
-        },
+        showOutputs() {
+            this.showOutput = !this.showOutput;
+        }
     },
     computed: {
         computeTextAreaHeight() {
@@ -83,17 +65,16 @@ export default {
         }
     },
     props: {
-        uploadedContent: String,
+        uploadedContent: null,
     }
 }
 </script>
 
-<style scoped> 
-.story-content-container {
-    margin-top: 15px;
-}
+<style scoped> .story-content-container {
+     margin-top: 15px;
+ }
 
-.story-content-wrapper {
+ .story-content-wrapper {
      display: flex;
      flex-direction: row;
      gap: 20px;
@@ -120,8 +101,6 @@ export default {
      padding: 3px 15px;
      width: 300px;
      border-radius: 5px;
-
-
  }
 
  .button-getStory {
@@ -156,11 +135,10 @@ export default {
      padding: 30px;
      margin-top: 20px;
      font-size: 18px;
-     resize: none;
+     resize: vertical;
      outline: none;
      background-color: rgba(0, 0, 0, 0.05);
      border-radius: 5px;
-     overflow: hidden;
  }
 
  @media (max-width: 768px) {

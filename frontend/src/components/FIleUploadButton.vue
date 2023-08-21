@@ -1,4 +1,5 @@
 <template>
+    
     <div class="file-upload-container">
         <form @submit.prevent="submitForm" class="upload-form">
             <label for="fileInput" :class="[style.label.default, selectedFile.content ? 'filled' : '']">{{
@@ -7,8 +8,10 @@
             <input type="file" name="fileInput" id="fileInput" ref="fileInput" @change="handleFileChange" class="file-input"
                 accept="text/plain, application/pdf">
             <button type="submit" :class="['upload-button', selectedFile.content ? 'filled' : '']"
-                v-if="selectedFile.object">{{ selectedFile.content ? 'Loaded' : 'Load first' }}</button>
-        </form>
+                v-if="selectedFile.object">{{ selectedFile.content ? 'Translated.' : 'Translate' }}</button>
+            </form>
+            <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
+            <button v-if="selectedFile.content" @click="downloadOutput">Download</button>
     </div>
 </template>
 
@@ -20,7 +23,7 @@ export default {
         return {
             selectedFile: {
                 object: null,
-                content: null,
+                content: '',
                 exists: false,
             },
             style: {
@@ -42,9 +45,8 @@ export default {
                             'Content-Type': 'multipart/form-data',
                         }
                     });
-                    console.log(response);
-                    this.$emit("fileUploaded", response.data.content);
                     this.selectedFile.content = response.data.content;
+                    this.$emit("fileUploaded", response.data.content);
                 } catch (error) {
                     console.error('Error uploading file: ', error);
                 }
@@ -53,13 +55,16 @@ export default {
             }
         },
         handleFileChange(event) {
+            console.log(event)
             this.selectedFile.object = event.target.files[0];
             this.selectedFile.exists = true;
         },
 
         resetForm() {
+            this.$refs.fileInput.value = '';
             this.selectedFile.object = null;
-            this.selectedFile.content = null;
+            this.selectedFile.content = '';
+            this.$emit("fileUploaded", null);
             this.selectedFile.exists = false;
         },
     }

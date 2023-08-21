@@ -1,5 +1,4 @@
 from fastapi import FastAPI, UploadFile
-from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 
 from openaiAPI.gpt import (
@@ -40,13 +39,10 @@ def get_story():
 @app.post("/uploadfile")
 async def add_file(file: UploadFile):
     try:
-        destination = Path("uploads") / file.filename
         content = await file.read()
-        decodeContent = str(content, 'utf-8')
-        translatedContent = translate(decodeContent)
-        with destination.open("wb") as f:
-            f.write(content)
-
+        decodedContent = str(content, 'utf-8')
+        translatedContent = translate(decodedContent)
+        
         return {
             "fileinfo": file,
             "content": {

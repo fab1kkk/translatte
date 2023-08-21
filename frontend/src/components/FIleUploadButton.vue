@@ -45,7 +45,7 @@ export default {
                             'Content-Type': 'multipart/form-data',
                         }
                     });
-                    this.selectedFile.content = response.data.content;
+                    this.selectedFile.content = response.data.content;                   
                     this.$emit("fileUploaded", response.data.content);
                 } catch (error) {
                     console.error('Error uploading file: ', error);

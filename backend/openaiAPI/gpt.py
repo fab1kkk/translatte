@@ -26,7 +26,7 @@ def generate_story():
     return response
 
 
-def translate(msg: str) -> str:
+def translate(msg: str, *args) -> str:
     response = openai.ChatCompletion.create(
         model=gpt_model,
         messages=[

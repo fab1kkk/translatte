@@ -35,7 +35,7 @@ def get_story():
     return generate_story()
 
 
-@app.post("/uploadfile/")
+@app.post("/uploadfile")
 async def add_file(file: UploadFile):
     try:
         destination = Path("uploads") / file.filename

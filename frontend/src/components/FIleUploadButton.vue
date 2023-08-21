@@ -1,5 +1,4 @@
 <template>
-    
     <div class="file-upload-container">
         <form @submit.prevent="submitForm" class="upload-form">
             <label for="fileInput" :class="[style.label.default, selectedFile.content ? 'filled' : '']">{{
@@ -7,11 +6,12 @@
                 selectedFile.object.name : 'Upload a file' }}</label>
             <input type="file" name="fileInput" id="fileInput" ref="fileInput" @change="handleFileChange" class="file-input"
                 accept="text/plain, application/pdf">
+            <input type="text" v-model="options.language" name="lang" id="lang" placeholder="enter language" required="True">
             <button type="submit" :class="['upload-button', selectedFile.content ? 'filled' : '']"
                 v-if="selectedFile.object">{{ selectedFile.content ? 'Translated.' : 'Translate' }}</button>
-            </form>
-            <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
-            <button v-if="selectedFile.content" @click="downloadOutput">Download</button>
+        </form>
+        <button v-if="selectedFile.exists" @click="resetForm">Reset</button>
+        <button v-if="selectedFile.content" @click="downloadOutput">Download</button>
     </div>
 </template>
 
@@ -26,6 +26,9 @@ export default {
                 content: '',
                 exists: false,
             },
+            options: {
+                language: '',
+            },
             style: {
                 label: {
                     default: 'file-label',
@@ -39,13 +42,14 @@ export default {
             if (this.selectedFile) {
                 let formData = new FormData();
                 formData.append('file', this.selectedFile.object);
+                formData.append('language', this.options.language);
                 try {
-                    const response = await axios.post('http://127.0.0.1:8000/uploadfile/', formData, {
+                    const response = await axios.post('http://127.0.0.1:8000/translate-from-file/', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                         }
                     });
-                    this.selectedFile.content = response.data.content;                   
+                    this.selectedFile.content = response.data.content;
                     this.$emit("fileUploaded", response.data.content);
                 } catch (error) {
                     console.error('Error uploading file: ', error);

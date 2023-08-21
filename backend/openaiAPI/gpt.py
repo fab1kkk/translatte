@@ -1,48 +1,24 @@
 import openai
-from .config import API_CONFIG
+from .config import GPT_CONFIG
 
-api_key = API_CONFIG["KEY"]
-gpt_model = API_CONFIG["MODEL"]
+class GPT:
+    openai.api_key = GPT_CONFIG["key"]
+    _model = GPT_CONFIG["model"]
 
-messages = [
-    {
-        "role": "system",
-        "content": "Jestes tlumaczem",
-    },
-    {
-        "role": "user",
-        "content": None,
-    }
-]
+    @classmethod
+    def translate(cls, *, text: str, to: str = "eng") -> str:
+        response = openai.ChatCompletion.create(
+            model=cls._model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"Jesteś tłumaczem. Przetłumacz podany tekst na język {to}",
+                },
+                {
+                    "role": "user",
+                    "content": text,
+                },
+            ],
+        )
 
-openai.api_key = api_key
-
-
-def generate_story():
-    response = openai.ChatCompletion.create(
-        model=gpt_model,
-        messages=messages,
-    )
-    return response
-
-
-def translate(msg: str, *args) -> str:
-    response = openai.ChatCompletion.create(
-        model=gpt_model,
-        messages=[
-            {
-                "role": "system",
-                "content":
-                    """
-                    Jesteś tłumaczem. Przetłumacz podany tekst na język angielski.
-                    """,
-            },
-            {
-                "role": "user",
-                "content": msg,
-            }
-        ]
-    )
-    return response['choices'][0].message.content
-
-
+        return response["choices"][0].message.content

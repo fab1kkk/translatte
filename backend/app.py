@@ -1,10 +1,7 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 
-from openaiAPI.gpt import (
-    generate_story,
-    translate
-)
+from openaiAPI.gpt import GPT
 
 app = FastAPI()
 
@@ -31,24 +28,19 @@ def welcome():
     }
 
 
-@app.get("/api/get-story")
-def get_story():
-    return generate_story()
-
-
-@app.post("/uploadfile")
-async def add_file(file: UploadFile):
+@app.post("/translate-from-file")
+async def add_file(file: UploadFile, language: str = Form(...)):
     try:
         content = await file.read()
-        decodedContent = str(content, 'utf-8')
-        translatedContent = translate(decodedContent)
+        decoded_content = str(content, "utf-8")
+        translated_content = GPT.translate(text=decoded_content, to=language)
         
         return {
             "fileinfo": file,
             "content": {
-                'original': content,
-                'translated': translatedContent,
-                },
+                "original": content,
+                "translated": translated_content,
+            },
         }
     except Exception as e:
         return {"error": str(e)}

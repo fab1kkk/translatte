@@ -1,5 +1,7 @@
 from fastapi import FastAPI, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+from utils.utils import decode_content
+
 
 from openaiAPI.gpt import GPT
 
@@ -32,12 +34,12 @@ def welcome():
 async def add_file(file: UploadFile, language: str = Form(...)):
     try:
         content = await file.read()
-        decoded_content = str(content, "utf-8")
+        decoded_content = decode_content(content)
         translated_content = GPT.translate(text=decoded_content, to=language)
         
         return {
-            "fileinfo": file,
-            "content": {
+            "file": file,
+            "message": {
                 "original": content,
                 "translated": translated_content,
             },
